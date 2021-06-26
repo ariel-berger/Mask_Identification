@@ -148,8 +148,10 @@ class TrainLogger:
         for scalar, scalar_value in scalars.items():
             self.report_scalar(scalar, scalar_value, epoch)
 
-    def write_epoch_statistics(self, epoch: int, epoch_time: float, train_loss: float, norm: float,
-                               train_score: float, eval_score: float) -> None:
+    def write_epoch_statistics(self, epoch: int, epoch_time: float, train_loss: float, train_bce_loss : float,
+                               train_l1_loss : float, norm: float,
+                               train_accuracy : float,train_iou : float, eval_accuracy: float, eval_iou: float
+                               , eval_loss) -> None:
         """
         Write multiple metrics
         :param epoch:
@@ -159,11 +161,16 @@ class TrainLogger:
         :param train_score:
         :param eval_score:
         """
-        text = 'Time: %.2f, ' % epoch_time
-        text += 'Gradient norm: %.4f, ' % train_loss
-        text += 'Train loss: %.2f, ' % norm
-        text += 'Train Score: %.2f, ' % train_score
-        text += 'Val score: %.2f' % eval_score
+        text = '\nTime: %.2f, ' % epoch_time
+        text += 'Gradient norm: %.4f, ' % norm
+        text += 'Train loss: %.2f, ' % train_loss
+        text += 'Train BCE loss: %.2f, ' % train_bce_loss
+        text += 'Train L1 loss: %.2f, ' % train_l1_loss
+        text += 'Train Accuracy: %.2f, ' % train_accuracy
+        text += 'Train iou: %.4f, ' % train_iou
+        text += 'Val Accuracy: %.2f ' % eval_accuracy
+        text += 'Val iou: %.4f ' % eval_iou
+        text += 'Val loss: %.4f ' % eval_loss
 
         self.write(text, epoch)
 

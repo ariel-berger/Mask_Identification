@@ -49,22 +49,31 @@ class MaskDataset(Dataset):
         image_list =[]
         for filename in glob.glob(self.folder_path +'/*.jpg'):
             im = Image.open(filename)
-            normalize = transforms.Normalize(mean=[0.4783, 0.4493, 0.4075],
-                                             std=[0.1214, 0.1191, 0.1429])
+            normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+
             transform = transforms.Compose([
-                transforms.Resize(224),
+                transforms.Resize((224,224)),
                 transforms.ToTensor(),
                 normalize, ])
 
             closer_location = filename.find(']') + 1
-            bounding_box = torch.tensor(ast.literal_eval(filename[14:closer_location]), requires_grad=False,dtype=torch.int32)
+            opener_location = filename.find('[')
+            bounding_box = torch.tensor(ast.literal_eval(filename[opener_location:closer_location]), requires_grad=False,dtype=torch.int32)
             shape = torch.tensor(im.size, requires_grad=False,dtype=torch.int32)
-            label = torch.tensor(ast.literal_eval(filename[closer_location + 2:-4]), requires_grad=False, dtype=torch.bool)
+            label = torch.tensor(ast.literal_eval(filename[closer_location + 2:-4]), requires_grad=False, dtype=torch.float32)
             image = transform(im.copy())
-            image_list.append([image,bounding_box,label, shape])
+            relative_bb = self.scale_bb(bounding_box,shape)
+            image_list.append([image,relative_bb,label, shape])
             im.close()
         return image_list
 
+    @staticmethod
+    def scale_bb(bounding_box,shape ):
+        rel_x = bounding_box[0] / shape[0]
+        rel_y = bounding_box[1] / shape[1]
+        rel_width = bounding_box[2] / shape[0]
+        rel_height = bounding_box[3] / shape[1]
+        return torch.tensor([rel_x,rel_y, rel_width, rel_height], requires_grad=False,dtype=torch.float32)
     # def _get_entries(self) -> List:
     #     """
     #     This function create a list of all the entries. We will use it later in __getitem__

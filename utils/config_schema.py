@@ -20,7 +20,9 @@ CFG_SCHEMA = {
         'num_epochs': int,
         'grad_clip': float,
         'dropout': float,
-        'num_hid': int,
+        'hidden_bb_dim': int,
+        'hidden_label_dim': int,
+        'bb_loss_weight': int,
         'batch_size': int,
         'save_model': bool,
         'lr': {
