@@ -5,7 +5,7 @@ Here, we will run everything that is related to the training procedure.
 import time
 import torch
 import torch.nn as nn
-from models.base_model import MyModel
+from models.base_model import ResidualModel
 from tqdm import tqdm
 from utils import train_utils
 from torch.utils.data import DataLoader
@@ -72,8 +72,8 @@ def calc_iou(predicted_bounding_box, bounding_box, shape):
 # def train(model: nn.Module, train_loader: DataLoader, eval_loader: DataLoader, train_params: TrainParams,
 #           logger: TrainLogger) -> Metrics:
 def train(config):
-    model = MyModel(dropout=config['dropout'], hidden_bb_dim=config['hidden_bb_dim'],
-                    hidden_label_dim=config['hidden_label_dim'])
+    model = ResidualModel(dropout=config['dropout'], hidden_bb_dim=config['hidden_bb_dim'],
+                          hidden_label_dim=config['hidden_label_dim'])
     if torch.cuda.is_available():
         model = model.cuda()
 

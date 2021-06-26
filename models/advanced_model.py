@@ -8,13 +8,13 @@ from torch import nn, Tensor
 import torch
 
 
-class ResidualModel(nn.Module, metaclass=ABCMeta):
+class ResidualModelAdvanced(nn.Module, metaclass=ABCMeta):
     """
     Example for a simple model
     """
 
     def __init__(self, hidden_bb_dim=100, hidden_label_dim=100, dropout: float = 0.2):
-        super(ResidualModel, self).__init__()
+        super(ResidualModelAdvanced, self).__init__()
 
         # stacking layers with pooling every 3 layers
         self.layers = []
