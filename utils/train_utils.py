@@ -33,7 +33,7 @@ def get_zeroed_metrics_dict() -> Dict:
     :return: dictionary to store all relevant metrics for training
     """
     return {'train_loss': 0, 'train_bb_loss': 0, 'train_bce_loss': 0, 'train_iou':0, 'train_accuracy': 0,
-            'total_norm': 0, 'count_norm': 0}
+            'total_norm': 0, 'count_norm': 0, 'bb_loss' : 0, 'bce_loss' : 0}
 
 
 class TrainParams:

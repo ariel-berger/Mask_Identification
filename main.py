@@ -9,14 +9,14 @@ from ray import tune
 import numpy as np
 from ray.tune import CLIReporter
 from ray.tune.schedulers import ASHAScheduler
-
+from train_separately import train as train_separately
 torch.backends.cudnn.benchmark = True
 
 
 def main() -> None:
     # Setting hyperparameters for training
     config = {}
-    config["batch_size"] = 32
+    config["batch_size"] = 16
     config["dropout"] = tune.sample_from(lambda _: np.random.uniform(0, 0.6))
     config["lr_value"] = tune.loguniform(1e-5, 1e-2)
     config["hidden_bb_dim"] = tune.sample_from(lambda _: np.random.randint(200, 500))
@@ -34,8 +34,8 @@ def main() -> None:
         metric_columns=["loss", "bb_loss", "bce_loss", "iou_score", "accuracy_score", "training_iteration"])
 
     result = tune.run(
-        train,
-        resources_per_trial={"cpu": 2, "gpu": 0.5},
+        train_separately,
+        resources_per_trial={"cpu": 2, "gpu": 1},
         config=config,
         num_samples=100,
         verbose=1,
