@@ -14,7 +14,7 @@ from torchvision import transforms
 
 class MaskDataset(Dataset):
     """
-    Images dataset. contains the images, the bounding box and the label
+    Mask dataset. contains the images, the bounding box and the label
     """
 
     def __init__(self, path: PathT) -> None:
@@ -29,7 +29,7 @@ class MaskDataset(Dataset):
         :return: image, bounding box, label, shape
         """
         return self.image_list[index][0], self.image_list[index][1], self.image_list[index][2], self.image_list[index][
-            3]
+            3], self.image_list[index][4]
 
     def __len__(self) -> int:
         """
@@ -64,7 +64,7 @@ class MaskDataset(Dataset):
 
             # scaling the shape of the bounding box to [0,1] scale
             relative_bb = self.scale_bb(bounding_box, shape)
-            image_list.append([image, relative_bb, label, shape])
+            image_list.append([image, relative_bb, label, shape, filename])
             im.close()
         return image_list
 

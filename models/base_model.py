@@ -1,16 +1,11 @@
-"""
-    Example for a simple model
-"""
-
 from abc import ABCMeta
-from nets.fc import FCNet
 from torch import nn, Tensor
 import torch
 
 
 class ResidualModel(nn.Module, metaclass=ABCMeta):
     """
-    Example for a simple model
+    ResidualModel - use CNN with Residual connections to predict
     """
 
     def __init__(self, hidden_bb_dim=100, hidden_label_dim=100, dropout: float = 0.2):
@@ -53,7 +48,7 @@ class ResidualModel(nn.Module, metaclass=ABCMeta):
 
     def forward(self, image):
         """
-        :return: predicted image and label
+        :return: predicted bounding box and mask
         """
         # adding residual connections and forwarding the model through the CNN
         new = image
