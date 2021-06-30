@@ -128,8 +128,8 @@ def evaluate(bb_model: nn.Module, mask_model: nn.Module, dataloader: DataLoader)
 
 		bb_hat = bb_model(image)
 		label_hat = mask_model(image)
-		# if np.random.random() > 0.95:
-		# 	print_img_bb(bb_hat, bounding_box, shape, path, 'eval_sep_')
+		if np.random.random() > 0.95:
+			print_img_bb(bb_hat, bounding_box, shape, path, 'eval_sep_')
 		bce_loss = nn.functional.binary_cross_entropy(label_hat.squeeze(-1), label)
 		bb_loss = nn.functional.smooth_l1_loss(bb_hat, bounding_box)
 		accuracy_score += accuracy(label_hat, label)

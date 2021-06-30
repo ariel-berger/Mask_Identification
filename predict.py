@@ -47,8 +47,9 @@ test_dataset = MaskDataset(args.input_folder)
 
 test_loader = DataLoader(test_dataset, config['batch_size'], shuffle=True,
 						 num_workers=6)
-accuracy, iou, loss, _ = evaluate(bb_model, mask_model, test_loader)
-print(f"Accuracy score is {accuracy}, IOU score is {iou}, loss is {loss}")
+
+# accuracy, iou, loss, _ = evaluate(bb_model, mask_model, test_loader)
+# print(f"Accuracy score is {accuracy}, IOU score is {iou}, loss is {loss}")
 
 pred_list, files_list, bb_list = predict(bb_model, mask_model, test_loader)
 
